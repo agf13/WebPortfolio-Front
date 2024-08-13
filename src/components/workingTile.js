@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { WorkingDto } from '../models/workingModel.js';
+import '../styles/working.css';
 
 export default function WorkingTile() {
 	const [data, setData] = useState(null);
 	const [working, setWorking] = useState(null);
 	const [apiImage, setApiImage] = useState("");
+	const { id } = useParams();
 
 	function fetchAndPopulateWorking() {
 		resetWorking();
@@ -13,12 +16,15 @@ export default function WorkingTile() {
 
 	function getWorking() {
 		const xhr = new XMLHttpRequest();
-		xhr.open('GET', 'http://localhost:3000/workings/1');
+		xhr.open('GET', `http://localhost:3000/workings/${id}`);
+		xhr.setRequestHeader("Cache-Control", "no-cache, no-store, max-age=0");
+		xhr.setRequestHeader("Expires", "Tue, 01 Jan 1980 1:00:00 GMT");
+		xhr.setRequestHeader("Pragma", "no-cache");
 
 		xhr.onload = function() {
 			if (xhr.status === 200) {
 				setData(JSON.parse(xhr.responseText)); // set data variable			
-				if (data != [] && data != "" && data != null) {
+				if (data !== [] && data !== "" && data !== null) {
 					console.log(data);
 					var newWorking = new WorkingDto(
 						data['id'], 
@@ -29,7 +35,7 @@ export default function WorkingTile() {
 						data['image'],
 					);
 					setWorking(newWorking);
-					setApiImage("http://localhost:3000/workings/1/image");
+					setApiImage(`http://localhost:3000/workings/${id}/image?randomNumber=${new Date().getTime()}`);
 				}
 			}
 			else {
@@ -47,12 +53,13 @@ export default function WorkingTile() {
 
 	function workingElement() {
 		return (
-			<div>
-				<p>{working.title}</p>
-				<p>{working.description}</p>
-				<p>{working.link}</p>
-				<p>{working.status}</p>
-				<img src={apiImage}  width="100" height="100" />
+			<div className="workingTile">
+				<p className="workingText">{working.title}</p>
+				<p className="workingText">{working.status}</p>
+				<a href={working.link}>
+					<img src={apiImage}  className="workingImage"/>
+				</a>
+				<p className="workingText">{working.description}</p>
 			</div>
 		);
 	}

@@ -1,0 +1,48 @@
+
+.workingForm {
+	border: 1px solid;
+	padding: 10px;
+	width: fit-content;
+	height: fit-content;
+}
+
+.workingFormField {
+	padding: 10px;
+}
+
+.workingFormLabel {
+	height: fit-content;
+	width: fit-content;
+}
+
+.workingFormInline {
+	display: flex;
+}
+
+.workingFormCheckbox {
+	margin-left: 10px;
+}
+
+.workingText {
+	max-width: 200px;
+	width: fit-content;
+}
+
+.workingImage {
+	max-height: 200px;
+	max-width:  200px;
+	height: auto;
+	width: auto;
+}
+
+.workingTile {
+	border: 2px solid;
+	max-height: 600px;
+	max-width: 400px;
+	height: fit-content;
+	width: fit-content;
+	display: block;
+	justify-content: center;
+	align-items: center;
+	padding: 10px;	
+}

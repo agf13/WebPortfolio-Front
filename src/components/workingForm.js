@@ -27,7 +27,7 @@ export default function WorkingForm() {
 				setLoading(false);
 			}
 		}
-		if(location.state.working) {
+		if(location.state && location.state.working) {
 			id = location.state.working.id;
 			setWorking(location.state.working);
 		}

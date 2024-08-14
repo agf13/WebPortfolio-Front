@@ -66,6 +66,15 @@ body {
 
 
 
+.messageClicks {
+	display: inline-block;
+}
+
+.messageParagraph {
+	width: fit-content;
+	height: fit-content;
+}
+
 
 .workingText {
 	max-width: 200px;
@@ -103,8 +112,8 @@ body {
 }
 
 .workingImage {
-	max-height: 200px;
-	max-width:  200px;
+	max-height: 80%;
+	max-width:  90%;
 	height: auto;
 	width: auto;
 }
@@ -113,14 +122,14 @@ body {
 	position: relative;
 	background-color: gray;
 	border: 2px solid;
-	max-height: 600px;
-	max-width: 400px;
+	max-height: 30%;
+	max-width: 40%;
 	height: fit-content;
 	width: fit-content;
 	display: block;
 	justify-content: center;
 	align-items: center;
-	padding: 10px;	
+	padding: 10px;
 }
 
 .workingTile:hover .workingHoverMenu {

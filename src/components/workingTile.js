@@ -55,7 +55,7 @@ export default function WorkingTile({ workingToLoad, onDelete }) {
 	}
 
 	function goToEditPage() {
-		navigate(`/working/edit/${workingToLoad ? workingToLoad.id : id}`, { state: { working: working, somefield: 'abc' } });
+		navigate(`/working/edit/${workingToLoad ? workingToLoad.id : id}`, { state: { working: workingToLoad, somefield: 'abc' } });
 	}
 
 	function goToLink() {

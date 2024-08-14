@@ -1,7 +1,7 @@
 // src/compontents/workingForm.js
 
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { WorkingDto } from '../models/workingModel.js';
 import '../styles/working.css';
 
@@ -12,6 +12,9 @@ export default function WorkingForm() {
 	const [loading, setLoading] = useState(true);
 	var { id } = useParams();
 	const navigate = useNavigate();
+	const location = useLocation();
+	const { workingToUse, someField} = location.state || {};
+
 	var imageFile = null;
 
 	useEffect(() => {
@@ -24,7 +27,11 @@ export default function WorkingForm() {
 				setLoading(false);
 			}
 		}
-		console.log("in use effect");
+		if(location.state.working) {
+			id = location.state.working.id;
+			setWorking(location.state.working);
+		}
+		
 		if(id !== undefined) {
 			fetchData();
 			console.log("Id id defined?", id);
@@ -87,6 +94,7 @@ export default function WorkingForm() {
 		linkElement.value = newWorking.link
 		descriptionElement.value = newWorking.description
 		statusElement.checked = newWorking.status === 'VISIBLE' || newWorking.status === 'visible'
+		console.log("Is element visible:", (newWorking.status === 'VISIBLE' || newWorking.status === 'visible'));
 	}
 
 	function handleSubmit() {
@@ -212,7 +220,7 @@ export default function WorkingForm() {
 
 			<div className="workingFormInline">
 				<p className="workingFormLabel">Visible: </p>
-				<input type="checkbox" id="status" className="workingFormCheckbox" defaultValue={working ? working.status === 'visible' : false}/>
+				<input type="checkbox" id="status" className="workingFormCheckbox" />
 			</div>
 
 			<div className="workingFormLabel workingFormInline">

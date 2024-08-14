@@ -66,7 +66,8 @@ export default function WorkingTile({ workingToLoad, onDelete }) {
 	}
 
 	function deleteWorking() {
-		onDelete();
+		const idToDelete = workingToLoad ? workingToLoad.id : (working ? working.id : null);
+		onDelete(idToDelete);
 		const id = workingToLoad ? workingToLoad.id : (working ? working.id : null);
 
 		const xhr = new XMLHttpRequest();
@@ -126,7 +127,7 @@ export default function WorkingTile({ workingToLoad, onDelete }) {
 				</div>
 
 				<p className="workingText workingTitle">{workingParam ? workingParam.title : working.title}</p>
-				<img src={apiImage}  className="workingImage"/>
+				{ workingParam.image ? (<img src={apiImage}  className="workingImage"/>) : (<div className="emptyTileDiv" />) }
 				<p className="workingText">{workingParam ? workingParam.description : working.description}</p>
 
 			</div>

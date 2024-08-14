@@ -16,6 +16,12 @@ body {
 	margin-left: 30px;
 }
 
+.emptyTileDiv {
+	padding: 20px;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
 
 
 .workingForm {

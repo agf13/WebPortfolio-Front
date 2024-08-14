@@ -1,6 +1,6 @@
 // src/components/workingList.js
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { WorkingDto } from '../models/workingModel.js';
 import WorkingTile from './workingTile.js';
@@ -12,6 +12,11 @@ export default function WorkingList() {
 	const [workingList, setWorkingList] = useState(null);
 	const [partialWorkingList, setPartialWorkingList] = useState([]);
 	const navigate = useNavigate();
+
+    useEffect(() => {
+		showList();
+    }, []);
+
 
 	function fetchAll() {
 		const xhr = new XMLHttpRequest();
@@ -42,6 +47,7 @@ export default function WorkingList() {
 		}
 
 		xhr.send();
+		showList();
 	}
 
 	function createNew() {
@@ -50,7 +56,12 @@ export default function WorkingList() {
 
 	const onDelete = (id) => {
 		console.log("Action triggered");
-		const newWorkingList = partialWorkingList.filter(item => item.id != id);
+		console.log(partialWorkingList.length);
+		const newWorkingList = partialWorkingList.filter(item => {
+			console.log(`Given id ${id}, item id ${item.id}`);
+			return item.id !== id;
+		});
+		console.log(newWorkingList.length);
 		setPartialWorkingList(newWorkingList);
 	}
 
@@ -61,21 +72,8 @@ export default function WorkingList() {
 
 		// filter elements that are not marked as visible
 		const partialWorkingList = workingList.filter(item => item.status.toLowerCase() === 'visible');
+		setPartialWorkingList(partialWorkingList);
 		console.log("partialworkinglist:",partialWorkingList);
-
-		// return the list of elements
-		return (
-			<ul className="workingsList" >
-				{partialWorkingList.map((item, index) => (
-					<>
-						<li key={index}>
-							<WorkingTile workingToLoad={item} className="workingTile" onDelete={onDelete} />
-						</li>
-						<br />
-					</>
-				))}
-			</ul>
-		);
 	}
 
 	return (
@@ -83,7 +81,17 @@ export default function WorkingList() {
 			<center>
 				<button onClick={fetchAll} className="reloadListButton"> Load workings </button>
 				<button onClick={createNew} className="newWorkingListButton"> New working </button>
-				{showList()}
+				
+				<ul className="workingsList" >
+					{partialWorkingList.map((item, index) => (
+						<div key={index}>
+							<li>
+								<WorkingTile workingToLoad={item} className="workingTile" onDelete={onDelete} />
+							</li>
+							<br />
+						</div>
+					))}
+				</ul>
 			</center>
 		</div>
 	);

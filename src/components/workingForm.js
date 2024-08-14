@@ -10,7 +10,7 @@ export default function WorkingForm() {
 	const [data, setData] = useState(null);
 	const [apiImage, setApiImage] = useState("");
 	const [loading, setLoading] = useState(true);
-	const { id } = useParams();
+	var { id } = useParams();
 	const navigate = useNavigate();
 	var imageFile = null;
 
@@ -115,10 +115,6 @@ export default function WorkingForm() {
 			addWorking(title, link, description, status);
 		}
 
-		if(imageFile !== null) {
-			onFileUpload();
-		}
-
 		navigate('/workings');
 	}
 
@@ -133,6 +129,21 @@ export default function WorkingForm() {
 			description: description,
 			status: status
 		});
+
+		xhr.onload = function () {
+			if (xhr.status === 201) {
+				// get the id of the newly created object to upload the picture (if existent) as well
+				var response = JSON.parse(xhr.responseText);
+				id = response.id;
+				
+				if(imageFile !== null) {
+					onFileUpload(id);
+				}
+			}
+			else {
+				console.log("I'm finding this hard to believe?", xhr.status);
+			}
+		}
 
 		xhr.send(data);
 	}
@@ -157,8 +168,9 @@ export default function WorkingForm() {
 		imageFile = event.target.files[0];
 	}
 
-	const onFileUpload = async () => {
+	const onFileUpload = async (givenId) => {
 		const formData = new FormData();
+		const idToUse = givenId ? givenId : id;
 		formData.append('image', imageFile);
 
 		try {

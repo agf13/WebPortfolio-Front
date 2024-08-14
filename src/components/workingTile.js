@@ -8,7 +8,7 @@ import arrowGif from '../assets/gifs/arrow2.gif';
 import trashGif from '../assets/gifs/trash-can.gif';
 import '../styles/working.css';
 
-export default function WorkingTile({ workingToLoad }) {
+export default function WorkingTile({ workingToLoad, onDelete }) {
 	const [data, setData] = useState(null);
 	var [working, setWorking] = useState(null);
 	var [apiImage, setApiImage] = useState("");
@@ -66,6 +66,7 @@ export default function WorkingTile({ workingToLoad }) {
 	}
 
 	function deleteWorking() {
+		onDelete();
 		const id = workingToLoad ? workingToLoad.id : (working ? working.id : null);
 
 		const xhr = new XMLHttpRequest();

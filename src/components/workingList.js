@@ -10,6 +10,7 @@ import '../styles/working.css';
 export default function WorkingList() {
 	const [data, setData] = useState(null);
 	const [workingList, setWorkingList] = useState(null);
+	const [partialWorkingList, setPartialWorkingList] = useState([]);
 	const navigate = useNavigate();
 
 	function fetchAll() {
@@ -47,6 +48,12 @@ export default function WorkingList() {
 		navigate("/working/new");
 	}
 
+	const onDelete = (id) => {
+		console.log("Action triggered");
+		const newWorkingList = partialWorkingList.filter(item => item.id != id);
+		setPartialWorkingList(newWorkingList);
+	}
+
 	function showList() {
 		// check if the workingList exists
 		if(workingList === null) return (<div> </div>);
@@ -62,7 +69,7 @@ export default function WorkingList() {
 				{partialWorkingList.map((item, index) => (
 					<>
 						<li key={index}>
-							<WorkingTile workingToLoad={item} className="workingTile"/>
+							<WorkingTile workingToLoad={item} className="workingTile" onDelete={onDelete} />
 						</li>
 						<br />
 					</>

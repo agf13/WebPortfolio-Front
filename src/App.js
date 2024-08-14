@@ -4,6 +4,7 @@ import './App.css';
 import MyButton from './components/button.js';
 import WorkingTile from './components/workingTile.js';
 import WorkingForm from './components/workingForm.js';
+import WorkingList from './components/workingList.js';
 
 /*
 function App() {
@@ -25,8 +26,10 @@ function App() {
     <Router>
         <Routes>
             <Route path="/" element={<WorkingTile />} />
+			<Route path="/workings" element={<WorkingList />} />
             <Route path="/working/:id" element={<WorkingTile />} />
 			<Route path="/working/new" element={<WorkingForm />} />
+			<Route path="/working/edit/:id" element={<WorkingForm />} />
         </Routes>
     </Router>
   );  

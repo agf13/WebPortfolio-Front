@@ -1,31 +1,83 @@
+body {
+	background-color: #141619;
+}
 
 .workingForm {
-	border: 1px solid;
+	background-color: gray;
 	padding: 10px;
-	width: fit-content;
-	height: fit-content;
+	width: 50%;
+	height: 30%;
+	margin: auto;
 }
 
 .workingFormField {
 	padding: 10px;
+	width: 80%;
+}
+
+.workingFormTextarea {
+	padding: 10px;
+	width: 80%;
+	height: 100px;
 }
 
 .workingFormLabel {
 	height: fit-content;
 	width: fit-content;
+	font-size: 24px;
 }
 
-.workingFormInline {
-	display: flex;
+.workingFormInline > * {
+	display: inline-block;
 }
 
 .workingFormCheckbox {
 	margin-left: 10px;
+	width: 20px;
+	height: 20px;
 }
+
+.workingFormUploadImage {
+	padding-left: 10px;
+}
+
+
+
+
 
 .workingText {
 	max-width: 200px;
 	width: fit-content;
+}
+
+.workingTitle {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.workingHoverMenu {
+	border: 1px solid;
+	position: absolute;
+	left: 100px;
+	width: fit-content;
+	height: fit-content;
+	visibility: hidden;
+}
+
+.workingHoverButton1 {
+	position: absolute;
+	top: 0px;
+	left: 101%;
+}
+.workingHoverButton2 {
+	position: absolute;
+	top: 30%;
+	left: 101%;
+}
+.workingHoverButton3 {
+	position: absolute;
+	top: 60%;
+	left: 101%;
 }
 
 .workingImage {
@@ -36,6 +88,8 @@
 }
 
 .workingTile {
+	position: relative;
+	background-color: gray;
 	border: 2px solid;
 	max-height: 600px;
 	max-width: 400px;
@@ -45,4 +99,33 @@
 	justify-content: center;
 	align-items: center;
 	padding: 10px;	
+}
+
+.workingTile:hover .workingHoverMenu {
+	visibility: visible;
+}
+
+
+
+
+
+
+.workingsList {
+	list-style-type: none;
+}
+
+
+
+
+.zoomedGif {
+	width: 50px;
+	height: 50px;
+	overflow: hidden;
+}
+
+.zoomedGifOnImage {
+	width: 50px;
+	height: 50px;
+	object-position: -10px -10px;
+	object-fit: cover;
 }

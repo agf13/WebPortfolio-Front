@@ -1,15 +1,27 @@
+// src/components/workingTile.js
+
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { WorkingDto } from '../models/workingModel.js';
+import penGif from '../assets/gifs/pen.gif';
+import arrowGif from '../assets/gifs/arrow2.gif';
+import trashGif from '../assets/gifs/trash-can.gif';
 import '../styles/working.css';
 
-export default function WorkingTile() {
+export default function WorkingTile({ workingToLoad }) {
 	const [data, setData] = useState(null);
-	const [working, setWorking] = useState(null);
-	const [apiImage, setApiImage] = useState("");
+	var [working, setWorking] = useState(null);
+	var [apiImage, setApiImage] = useState("");
+	const [showMenu, setShowMenu] = useState("hidden");
 	const { id } = useParams();
+	const navigate = useNavigate();
 
 	function fetchAndPopulateWorking() {
+		if(workingToLoad) {
+			// we don't need to fetch the object in this case
+			return; 
+		}
+		console.log("After the workingToLoad check");
 		resetWorking();
 		getWorking();
 	}
@@ -17,20 +29,16 @@ export default function WorkingTile() {
 	function getWorking() {
 		const xhr = new XMLHttpRequest();
 		xhr.open('GET', `http://localhost:3000/workings/${id}`);
-		xhr.setRequestHeader("Cache-Control", "no-cache, no-store, max-age=0");
-		xhr.setRequestHeader("Expires", "Tue, 01 Jan 1980 1:00:00 GMT");
-		xhr.setRequestHeader("Pragma", "no-cache");
 
 		xhr.onload = function() {
 			if (xhr.status === 200) {
 				setData(JSON.parse(xhr.responseText)); // set data variable			
 				if (data !== [] && data !== "" && data !== null) {
-					console.log(data);
 					var newWorking = new WorkingDto(
-						data['id'], 
-						data['title'], 
-						data['description'], 
-						data['link'], 
+						data['id'],
+						data['title'],
+						data['description'],
+						data['link'],
 						data['status'],
 						data['image'],
 					);
@@ -46,22 +54,64 @@ export default function WorkingTile() {
 		xhr.send();
 	}
 
+	function goToEditPage() {
+		navigate(`/working/edit/${workingToLoad ? workingToLoad.id : id}`, { state: { working: working, somefield: 'abc' } });
+	}
+
+	function goToLink() {
+		window.location.href = workingToLoad ? workingToLoad.link : (working ? working.link : "");
+	}
+
 	function resetWorking() {
 		console.log("Trying out new things");
 		setApiImage("");
 	}
 
-	function workingElement() {
+	function toggleMenu() {
+		const newMenuState = showMenu === "hidden" ? "visible" : "hidden";
+		setShowMenu(newMenuState);
+	}
+
+	const hoveringMenu = () => {
 		return (
-			<div className="workingTile">
-				<p className="workingText">{working.title}</p>
-				<p className="workingText">{working.status}</p>
-				<a href={working.link}>
-					<img src={apiImage}  className="workingImage"/>
-				</a>
-				<p className="workingText">{working.description}</p>
+			<div className="workingHoverMenu">
+				<button> 123 </button>
+				<br />
+				<button> 345 </button>
 			</div>
 		);
+	}
+
+	function workingElement(workingParam) {
+		return (
+			<div className="workingTile" onClick={toggleMenu}>
+				<div className="workingHoverButton1">
+					<button style={{ padding: "10px", visibility: showMenu }} onClick={goToEditPage} className="zoomedGif">
+						<img src={penGif} width="20px" height="20px" className="zoomedGifOnImage" />
+					</button>
+				</div>
+				<div className="workingHoverButton2">
+					<button style={{ padding: "10px", visibility: showMenu }} onClick={goToLink} className="zoomedGif">
+						<img src={arrowGif} className="zoomedGifOnImage" />
+					</button>
+				</div>
+				<div className="workingHoverButton3">
+					<button style={{ padding: "10px", visibility: showMenu }} className="zoomedGif">
+						<img src={trashGif} width="20px" height="20px" className="zoomedGifOnImage" />
+					</button>
+				</div>
+
+				<p className="workingText workingTitle">{workingParam ? workingParam.title : working.title}</p>
+				<img src={apiImage}  className="workingImage"/>
+				<p className="workingText">{workingParam ? workingParam.description : working.description}</p>
+
+			</div>
+		);
+	}
+
+	if(workingToLoad) {
+		apiImage = `http://localhost:3000/workings/${workingToLoad.id}/image?randomNumber=${new Date().getTime()}`;
+		return workingElement(workingToLoad);
 	}
 
 	return (

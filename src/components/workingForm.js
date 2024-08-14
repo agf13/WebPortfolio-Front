@@ -219,7 +219,7 @@ export default function WorkingForm() {
 			<br />
 			<br />
 			<p> In case that the form should have had data in the fields and it does not, please click the button below to reload the form </p>
-			<button onClick={initForm}> some button </button>
+			<button onClick={initForm}> Reload data </button>
 		</div>
 	);
 }

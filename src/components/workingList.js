@@ -10,6 +10,7 @@ import '../styles/working.css';
 export default function WorkingList() {
 	const [data, setData] = useState(null);
 	const [workingList, setWorkingList] = useState(null);
+	const navigate = useNavigate();
 
 	function fetchAll() {
 		const xhr = new XMLHttpRequest();
@@ -42,13 +43,17 @@ export default function WorkingList() {
 		xhr.send();
 	}
 
+	function createNew() {
+		navigate("/working/new");
+	}
+
 	function showList() {
 		// check if the workingList exists
-		if(workingList === null) return (<div> Loading ... </div>);
+		if(workingList === null) return (<div> </div>);
 		console.log(workingList);
 
 		// filter elements that are not marked as visible
-		const partialWorkingList = workingList.filter(item => item.status === 'visible');
+		const partialWorkingList = workingList.filter(item => item.status.toLowerCase() === 'visible');
 		console.log("partialworkinglist:",partialWorkingList);
 
 		// return the list of elements
@@ -68,8 +73,11 @@ export default function WorkingList() {
 
 	return (
 		<div>
-			<button onClick={fetchAll}> Click me </button>
-			{showList()}
+			<center>
+				<button onClick={fetchAll} className="reloadListButton"> Load workings </button>
+				<button onClick={createNew} className="newWorkingListButton"> New working </button>
+				{showList()}
+			</center>
 		</div>
 	);
 }

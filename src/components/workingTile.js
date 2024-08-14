@@ -59,7 +59,30 @@ export default function WorkingTile({ workingToLoad }) {
 	}
 
 	function goToLink() {
-		window.location.href = workingToLoad ? workingToLoad.link : (working ? working.link : "");
+		const partialLink = workingToLoad ? workingToLoad.link : (working ? working.link : "");
+		const linkToRedirect = `https://${partialLink}`;
+		console.log(linkToRedirect);
+		window.location.href = linkToRedirect;
+	}
+
+	function deleteWorking() {
+		const id = workingToLoad ? workingToLoad.id : (working ? working.id : null);
+
+		const xhr = new XMLHttpRequest();
+		xhr.open('DELETE', `http://localhost:3000/workings/${id}`);
+
+		xhr.onload = function() {
+			console.log("Deleting working with id:", id);
+			if (xhr.status === 200) {
+				navigate("/workings");
+			}
+			else {
+				console.log("Some error occured and working could not have been deleted");
+			}
+		}
+
+		xhr.send();
+
 	}
 
 	function resetWorking() {
@@ -96,7 +119,7 @@ export default function WorkingTile({ workingToLoad }) {
 					</button>
 				</div>
 				<div className="workingHoverButton3">
-					<button style={{ padding: "10px", visibility: showMenu }} className="zoomedGif">
+					<button style={{ padding: "10px", visibility: showMenu }} onClick={deleteWorking} className="zoomedGif">
 						<img src={trashGif} width="20px" height="20px" className="zoomedGifOnImage" />
 					</button>
 				</div>

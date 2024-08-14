@@ -2,6 +2,22 @@ body {
 	background-color: #141619;
 }
 
+
+.reloadListButton {
+	margin-top: 10px;
+	width: 70px;
+	height: 40px;
+}
+
+.newWorkingListButton {
+	margin-top: 10px;
+	width: 70px;
+	height: 40px;
+	margin-left: 30px;
+}
+
+
+
 .workingForm {
 	background-color: gray;
 	padding: 10px;
